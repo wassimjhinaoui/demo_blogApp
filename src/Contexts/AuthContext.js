@@ -21,7 +21,7 @@ export function AuthProvider(props) {
                 navigate("/")
             })
         
-    },[])
+    },[navigate])
 
     useEffect(() => {
         if (isAuth) {
