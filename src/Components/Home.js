@@ -1,5 +1,5 @@
 import { getDocs,collection, doc,deleteDoc } from 'firebase/firestore';
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useCallback} from 'react'
 import { db } from '../firebase-config';
 import Post from './Post'
 
@@ -7,10 +7,14 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
 
 
-  async function deletePost(id) {
-    const postDoc = doc(db,"posts",id)
-    await deleteDoc(postDoc)
-}
+  useCallback(
+    async function deletePost(id) {
+      const postDoc = doc(db,"posts",id)
+      await deleteDoc(postDoc)
+    },
+    []
+  )
+  
   useEffect(()=>{
     const postCollectionRef = collection(db,"posts")
     async function getPosts() {

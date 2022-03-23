@@ -46,7 +46,7 @@ export default function CreatePost() {
             navigate('/login')
         }
     
-    },[])
+    },[isAuth,navigate])
   return (
     <form className={'create--post ' + darkClass}>
         <span>
