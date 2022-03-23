@@ -27,7 +27,7 @@ export function AuthProvider(props) {
         if (isAuth) {
             login()
         }
-    }, [isAuth]);
+    }, [isAuth,login]);
 
     function signUserOut() {
         signOut(auth).then(() =>{
