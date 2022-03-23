@@ -1,4 +1,4 @@
-import React, {createContext, useState,useEffect } from 'react'
+import React, {createContext, useState,useEffect, useCallback } from 'react'
 import {auth,provider} from '../firebase-config'
 import {signInWithPopup, signOut} from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
@@ -12,7 +12,7 @@ export function AuthProvider(props) {
 
     const navigate = useNavigate()
 
-    function login(){
+    const login = useCallback(() =>{
         signInWithPopup(auth,provider)
             .then(()=>setCurrentUser(auth.currentUser))
             .then(res => {
@@ -21,7 +21,7 @@ export function AuthProvider(props) {
                 navigate("/")
             })
         
-    }
+    },[])
 
     useEffect(() => {
         if (isAuth) {
