@@ -8,7 +8,9 @@ export const AuthContext = createContext()
 
 export function AuthProvider(props) {
     const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [currentUser, setCurrentUser] = useState(
+        JSON.parse(localStorage.getItem('user')) ?JSON.parse(localStorage.getItem('user')):{}
+    );
 
     const navigate = useNavigate()
 
