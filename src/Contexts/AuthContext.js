@@ -8,7 +8,7 @@ export const AuthContext = createContext()
 
 export function AuthProvider(props) {
     const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
-    const [currentUser, setCurrentUser] = useState({});
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
 
     const navigate = useNavigate()
 
@@ -18,16 +18,19 @@ export function AuthProvider(props) {
             .then(res => {
                 localStorage.setItem("isAuth",true)
                 setIsAuth(true)
+                localStorage.setItem("user",JSON.stringify(auth.currentUser))
                 navigate("/")
             })
         
     },[navigate])
 
-    useEffect(() => {
-        if (isAuth) {
-            login()
-        }
-    }, [isAuth,login]);
+    // useEffect(() => {
+    //     if (isAuth) {
+    //         auth.onAuthStateChanged(function(user) {
+    //             setCurrentUser({ user: user });
+    //           });
+    //     }
+    // }, [isAuth]);
 
     function signUserOut() {
         signOut(auth).then(() =>{
