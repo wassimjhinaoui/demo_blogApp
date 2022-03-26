@@ -4,29 +4,30 @@ import Navbar from './Navbar';
 import Home from './Home';
 import LogOut from './LogOut';
 import Login from './Login';
-import CreatePost from './CreatePost'
-import { DarkModeProvider } from '../Contexts/DarkModeContext';
+
+
 import { AuthProvider } from '../Contexts/AuthContext';
+import { DarkModeContext } from '../Contexts/DarkModeContext';
+import { useContext } from 'react';
 
 function App() {
+    const [darkMode] = useContext(DarkModeContext);
+    const darkClass = darkMode ? "darkMain" : ""
   return (
     
-    <DarkModeProvider>
 
     <Router>
       <AuthProvider>
       <Navbar/>
-        <main> 
+        <main className={darkClass} > 
       <Routes>
         <Route path='/' exact element={<Home/>}/>
         <Route path='/logout' element={<LogOut/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/createpost' element={<CreatePost/>}/>
       </Routes>
         </main>
     </AuthProvider>
     </Router>
-    </DarkModeProvider>
   );
 }
 

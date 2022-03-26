@@ -17,9 +17,8 @@ function Navbar() {
             <Link to="/"><li>Home</li></Link>
             
             {!isAuth ? <Link to="/login"><li>Log In</li></Link> 
-                     :<><Link to="/logout"><li>Log out</li></Link>
-                        <Link to="/createpost"><li>Create Post</li></Link>
-                      </>}
+                     :<Link to="/logout"><li>Log out</li></Link>
+                      }
         </ul>
         <ToggleDarkMode/>
     </nav>

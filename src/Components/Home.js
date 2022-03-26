@@ -1,11 +1,15 @@
-import { getDocs,collection, doc,deleteDoc } from 'firebase/firestore';
-import React,{useEffect, useState,useCallback} from 'react'
+import { collection, doc,deleteDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import React,{useEffect, useState,useCallback,useContext} from 'react'
 import { db } from '../firebase-config';
 import Post from './Post'
+import CreatePost from './CreatePost'
+import { AuthContext } from '../Contexts/AuthContext';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [deleted, setDeleted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const {isAuth} = useContext(AuthContext)
 
 
   const deletePost = useCallback(async (id) => {
@@ -19,16 +23,20 @@ export default function Home() {
   useEffect(()=>{
     setDeleted(false)
     const postCollectionRef = collection(db,"posts")
-    async function getPosts() {
-      const data =await getDocs(postCollectionRef)
-      setPosts(data.docs.map(doc => ({...doc.data(),id:doc.id})))
-    }
-    getPosts()
+    const q = query(postCollectionRef,orderBy('timestamp','desc'))
+    const unsub = onSnapshot(q,(snapshot)=>
+      setPosts(snapshot.docs.map(doc => ({...doc.data(),id:doc.id})))
+    )
+    setLoading(false)
+    return unsub
   },[deleted])
 
   return (
     <div className='homePage'>
-      {posts.map(post => (<Post key={post.id} deletePost={()=>deletePost(post.id)} data={post} />))}
+      {isAuth &&  <CreatePost setLoading={setLoading}/>}
+      { 
+        !loading && posts.map(post => (<Post key={post.id} loading={loading} deletePost={()=>deletePost(post.id)} data={post} />))
+      }
     </div>
   )
 }

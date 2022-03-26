@@ -1,6 +1,6 @@
 import React, {createContext, useState, useCallback } from 'react'
 import {auth,provider} from '../firebase-config'
-import {signInWithPopup, signOut} from 'firebase/auth'
+import {onAuthStateChanged, signInWithPopup, signOut} from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 
 
@@ -8,9 +8,10 @@ export const AuthContext = createContext()
 
 export function AuthProvider(props) {
     const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
-    const [currentUser, setCurrentUser] = useState(
-        JSON.parse(localStorage.getItem('user')) ?JSON.parse(localStorage.getItem('user')):{}
-    );
+    const [currentUser, setCurrentUser] = useState({});
+    onAuthStateChanged(auth,user => {
+        setCurrentUser(user)
+    })
 
     const navigate = useNavigate()
 
@@ -20,7 +21,6 @@ export function AuthProvider(props) {
             .then(res => {
                 localStorage.setItem("isAuth",true)
                 setIsAuth(true)
-                localStorage.setItem("user",JSON.stringify(auth.currentUser))
                 navigate("/")
             })
         

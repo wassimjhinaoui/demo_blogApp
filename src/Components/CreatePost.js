@@ -1,16 +1,15 @@
 import React,{useState,useContext, useEffect} from 'react'
-import {addDoc, collection} from 'firebase/firestore'
+import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
 import { db } from '../firebase-config';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../Contexts/DarkModeContext';
 
-export default function CreatePost() {
+export default function CreatePost({loading,setLoading}) {
     const [formData, setFormData] = useState({
         title:"",
         post:"",
     });
-
     const [darkMode] = useContext(DarkModeContext);
     const darkClass = darkMode ? "dark" : ""
 
@@ -30,15 +29,17 @@ export default function CreatePost() {
     const postCollectionRef = collection(db,"posts")
     async function CreatePost(e) {
         e.preventDefault()
+        setLoading(true)
+
         await addDoc(postCollectionRef, 
                         {
                             title :formData.title,
                             post : formData.post,
-                            author:{name: currentUser.displayName , id :currentUser.uid }
+                            author:{name: currentUser.displayName , id :currentUser.uid },
+                            timestamp :serverTimestamp()
                         }
                      )
-                     console.log(currentUser)
-        navigate('/')
+        setLoading(false)
     }
 
     useEffect(()=>{
@@ -57,7 +58,7 @@ export default function CreatePost() {
             <label htmlFor='post' >post</label>
             <textarea id='post' name="post" value={formData.post} onChange={handelChange} />
         </span>
-        <button onClick={CreatePost}>Add post</button>
+        <button disabled={loading} onClick={CreatePost}>Add post</button>
     </form>
   )
 }
