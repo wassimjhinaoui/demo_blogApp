@@ -5,11 +5,12 @@ import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../Contexts/DarkModeContext';
 
-export default function CreatePost({loading,setLoading}) {
+export default function CreatePost({setLoading}) {
     const [formData, setFormData] = useState({
         title:"",
         post:"",
     });
+    const [addLoading, setAddLoading] = useState(false);
     const [darkMode] = useContext(DarkModeContext);
     const darkClass = darkMode ? "dark" : ""
 
@@ -29,7 +30,7 @@ export default function CreatePost({loading,setLoading}) {
     const postCollectionRef = collection(db,"posts")
     async function CreatePost(e) {
         e.preventDefault()
-        setLoading(true)
+        setAddLoading(true)
 
         await addDoc(postCollectionRef, 
                         {
@@ -39,7 +40,11 @@ export default function CreatePost({loading,setLoading}) {
                             timestamp :serverTimestamp()
                         }
                      )
-        setLoading(false)
+        setAddLoading(false)
+        setFormData({
+            title:"",
+            post:"",
+        })
     }
 
     useEffect(()=>{
@@ -58,7 +63,7 @@ export default function CreatePost({loading,setLoading}) {
             <label htmlFor='post' >post</label>
             <textarea id='post' name="post" value={formData.post} onChange={handelChange} />
         </span>
-        <button disabled={loading} onClick={CreatePost}>Add post</button>
+        <button disabled={addLoading} onClick={CreatePost}>Add post</button>
     </form>
   )
 }

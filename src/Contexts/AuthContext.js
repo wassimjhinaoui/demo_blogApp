@@ -9,6 +9,7 @@ export const AuthContext = createContext()
 export function AuthProvider(props) {
     const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
     const [currentUser, setCurrentUser] = useState({});
+    const [isLogingIn, setIsLogingIn] = useState(false)
     onAuthStateChanged(auth,user => {
         setCurrentUser(user)
     })
@@ -16,11 +17,13 @@ export function AuthProvider(props) {
     const navigate = useNavigate()
 
     const login = useCallback(() =>{
+        setIsLogingIn(true)
         signInWithPopup(auth,provider)
             .then(()=>setCurrentUser(auth.currentUser))
             .then(res => {
                 localStorage.setItem("isAuth",true)
                 setIsAuth(true)
+                setIsLogingIn(false)
                 navigate("/")
             })
         
@@ -39,7 +42,8 @@ export function AuthProvider(props) {
         isAuth,
         login,
         signUserOut,
-        currentUser
+        currentUser,
+        isLogingIn
     }
   return (
     <AuthContext.Provider value={value}>
