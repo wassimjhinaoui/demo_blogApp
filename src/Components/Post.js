@@ -67,7 +67,7 @@ export default function Post({data,deletePost}) {
         <div className='post--container'>
             <p>{data.post}</p>
         </div>
-        <div className='post--autor'>@{data.author.name} <span className='time'>posted at {date.getHours()}:{date.getMinutes()} {date.getFullYear()}/{date.getMonth()}/{date.getDay()}</span></div>
+        <div className='post--autor'>@{data.author.name} <span className='time'>posted at {date.getHours()}:{date.getMinutes()} {date.getFullYear()}/{date.getMonth()}/{date.getDate()}</span></div>
     </div>
   )
 }
