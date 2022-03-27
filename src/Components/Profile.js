@@ -4,6 +4,7 @@ import { db } from '../firebase-config';
 import Post from './Post'
 import { AuthContext } from '../Contexts/AuthContext';
 import { DarkModeContext } from '../Contexts/DarkModeContext';
+import Loading from './Loading';
 
 function isEmpty(obj) {
     if (!obj) {
@@ -42,7 +43,7 @@ const Profile = () => {
     return unsub
   },[deleted,currentUser,isAuth])
   if (isEmpty(currentUser)) {
-      return "Looding"
+      return <Loading/>
   }
     
     return (
@@ -56,7 +57,8 @@ const Profile = () => {
                 </span>
             </div>
             { 
-                !loading ? posts.map(post => (<Post key={post.id} loading={loading} deletePost={()=>deletePost(post.id)} data={post} />)) : "looding..."
+                !loading ? posts.map(post => (<Post key={post.id} loading={loading} deletePost={()=>deletePost(post.id)} data={post} />)) : 
+                            <Loading />
             }
         </div>
     );
