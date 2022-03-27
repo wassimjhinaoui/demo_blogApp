@@ -12,7 +12,7 @@ function Navbar() {
 
   return (
     <nav className={classes}>
-        <h2>Wassim jhinaoui</h2>
+        <h2>Bloggy</h2>
         <ul className={darkMode ? "darkUl" : ""}>
             <Link to="/"><li>Home</li></Link>
             
