@@ -6,7 +6,7 @@ import ToggleDarkMode from './ToggleDarkMode'
 
 function Navbar() {
     const [darkMode] = useContext(DarkModeContext)
-    const {isAuth} = useContext(AuthContext)
+    const {isAuth,currentUser} = useContext(AuthContext)
 
     const classes = `navbar ${darkMode ? "dark" : ""}`
 
@@ -17,7 +17,7 @@ function Navbar() {
             <Link to="/"><li>Home</li></Link>
             
             {!isAuth ? <Link to="/login"><li>Log In</li></Link> 
-                     :<Link to="/logout"><li>Log out</li></Link>
+                     :<Link to="/profile"><li>Profile</li></Link>
                       }
         </ul>
         <ToggleDarkMode/>
