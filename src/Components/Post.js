@@ -3,7 +3,6 @@ import { AuthContext } from '../Contexts/AuthContext';
 import { DarkModeContext } from '../Contexts/DarkModeContext';
 import {doc, setDoc, Timestamp,serverTimestamp} from 'firebase/firestore'
 import { db } from '../firebase-config';
-import { SemipolarLoading } from 'react-loadingg';
 import Loading from './Loading';
 // import Popup from './PopUp';
 
