@@ -40,7 +40,7 @@ const Profile = () => {
     )
     setLoading(false)
     return unsub
-  },[deleted])
+  },[deleted,currentUser,isAuth])
   if (isEmpty(currentUser)) {
       return "Looding"
   }
@@ -48,7 +48,7 @@ const Profile = () => {
     return (
         <div className='profile-container'>
             <div className={'profile-header '+darkClass}>
-                <img src={currentUser.photoURL} alt="profile image" />
+                <img src={currentUser.photoURL} alt="" />
                 <span className='user-credentials'>
                     <h1>{currentUser.displayName}</h1>
                     <h4 className='abc'>{currentUser.email}</h4>
